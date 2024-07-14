@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+
+        const xhr=new XMLHttpRequest();
+        xhr.open("GET","https://restcountries.com/v3.1/all", true);
+
+        xhr.onload=function () {
+            if (xhr.status>=200 && xhr.status<300) {
+                let data=JSON.parse(xhr.responseText);
+
+                data.forEach(country => {
+                    console.log(`Name:${country.name.common}`);
+                    console.log(`Region:${country.region}`);
+                    console.log(`Sub-Region:${country.subregion || '-'}`);
+                    console.log(`Population:${country.population.toLocaleString()}`);
+                    console.log('Flag:',country.flags.svg); 
+                    console.log('---');
+                });
+            } else {
+                console.error('Error fetching data:',xhr.statusText);
+            }
+        };
+        xhr.onerror=function(){
+            console.error('An error occurred during the request');
+        };
+        xhr.send();
+
+    </script>
+</body>
+
+</html>
